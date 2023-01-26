@@ -1,0 +1,17 @@
+/* XPM */
+static char *p[] = {
+"10 10 3 1",
+"b c #000000",
+"r c #f44336",
+"  c none", 
+"   bbbb   ",
+"  brrrrb  ",
+" brrrrrrb ",
+"brrrrrrrrb",
+"brrrrrrrrb",
+"brrrrrrrrb",
+"brrrrrrrrb",
+" brrrrrrb ",
+"  brrrrb  ",
+"   bbbb   "
+};
