@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:06:06 by aniouar           #+#    #+#             */
-/*   Updated: 2023/01/26 12:21:26 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/01/26 22:34:38 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,14 @@ typedef struct s_dir_texture
     char *valid_fill;
 } t_dir_texture;
 
+
+
 typedef struct s_pars
 {
     t_dir_texture *dir_texture;
     int valid_direction;
+    int color_floor;
+    int color_c;
     int valid_color;
     int valid_map;
 } t_pars;
