@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:59 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/01/26 09:24:22 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/01/26 15:47:39 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,11 +226,23 @@ void	td_map(t_mlx *mlx)
 	mlx_loop(mlx->init);
 }
 
-int	main(void)
+int	main(int ac,char **av)
 {
-	t_mlx	*mlx;
+	//t_mlx	*mlx;
+	
+	(void)av;
+	if(ac != 2)
+		return (1);
+	
+	parser(av[1]);
+	
+	/*
+		mlx = malloc(sizeof(t_mlx));
+		mlx->map = map_creat();
+		td_map(mlx);
+		
+	*/
+		
 
-	mlx = malloc(sizeof(t_mlx));
-	mlx->map = map_creat();
-	td_map(mlx);
+	
 }
