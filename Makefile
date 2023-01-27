@@ -6,7 +6,7 @@
 #    By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/17 21:00:39 by ebensalt          #+#    #+#              #
-#    Updated: 2023/01/26 22:47:05 by aniouar          ###   ########.fr        #
+#    Updated: 2023/01/27 10:40:16 by aniouar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ C		=	src/get_next_line/get_next_line.c \
 			parsing/parser.c parsing/libft.c
 O		=	$(C:.c=.o)
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -Imlx -D BUFFER_SIZE=1
+CFLAGS	=	-Wall -Wextra -Werror -Imlx -D BUFFER_SIZE=1 
 MLX		=	-lmlx -framework OpenGL -framework AppKit
 all		:	$(NAME)
 $(NAME)	:	$(O)

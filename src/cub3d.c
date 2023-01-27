@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:59 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/01/26 15:47:39 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/01/27 11:15:18 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	**map_creat(void)
 {
 	int		fd;
 	char	**map;
+	int count;
 	char	*map_part;
 	char	*map_line;
 
@@ -66,7 +67,7 @@ char	**map_creat(void)
 		map_part = ft_strdup(get_next_line(fd));
 		map_line = ft_strjoin_1(map_line, map_part);
 	}
-	map = ft_split(map_line, '\n');
+	map = ft_split(map_line, '\n',&count);
 	return (map);
 }
 
