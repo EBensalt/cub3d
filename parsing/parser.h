@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:06:06 by aniouar           #+#    #+#             */
-/*   Updated: 2023/01/28 21:40:20 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/01/29 18:33:57 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,33 @@ typedef struct s_pars
     t_line *prev_line;
 } t_pars;
 
+// view
+void view(t_pars *pars);
+void view_lines(t_pars *pars);
+
+// color
+
+// extra
+void ft_cleanline(char *s);
+int count_char(char c,char *s);
+int n_powtwo(char *s);
+void fill_texture(t_pars *pars,char *s);
+void parse_color(t_pars *pars,char *s);
+int check_num(char **colors, int size);
+int count_delimiter(char *s,char lim);
+int check_map_line(char *s);
+int parse_column(char *s);
+int check_valid_column(t_pars *pars,char *s);
+int ft_strpos_flex(char *s);
+char *clean_column_space(char *s);
+void map_check(t_pars *pars,char *s);
+void init_pars(t_pars *pars);
+void validate_texture(t_pars *pars,char *str);
+void validate(t_pars *pars);
+void set_color(t_pars *pars,char **colors,int typo);
+void fill_color(t_pars *pars,char *s);
+
 char    **ft_split(char const *s, char c,int *count);
+char	**ft_flex_split(char const *s,int *count_flex);
 void parser(char *filecub);
 #endif
