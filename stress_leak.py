@@ -26,11 +26,18 @@ if choice == "1":
     for file in files:
         cmd = './cub3D ' + path + '/' + file
         output = subprocess.check_output(cmd, shell=True)
-        if(output == "Error"):
-            print(file + "\033[92m OK\033[0m")
-            continue
-        else:
-            print(file + "\033[91m KO\033[0m")
+        try:
+            l = output.split(" ")
+            if len(l) > 0:
+                num = int(output.split(" ")[1])
+                if(num == 0):
+                    print(file + "\033[92m " + str(num) + " leaks \033[0m")
+                    continue
+                else:
+                    print(file + "\033[91m " + str(num) + " leaks \033[0m")
+                    bad.append(file)
+        except:
+            print ("Undefined behavior")
             bad.append(file)
 else :
     print("Valid :")
@@ -42,11 +49,13 @@ else :
     for file in files:
         cmd = './cub3D ' + path + '/' + file
         output = subprocess.check_output(cmd, shell=True)
-        if(output == ""):
-            print(file + "\033[92m OK\033[0m")
+        num = int(output.split(" ")[1])
+        if(num == 0):
+            print(file + "\033[92m " + str(num) + " leaks \033[0m")
+            #continue
         else:
-            print(file + "\033[91m KO\033[0m")
-            bad.append(file)
+            print(file + "\033[91m " + str(num) + " leaks \033[0m")
+            #bad.append(file)
 
 
 print(bad)

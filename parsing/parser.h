@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:06:06 by aniouar           #+#    #+#             */
-/*   Updated: 2023/01/29 18:33:57 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 00:11:02 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_dir_texture
 typedef struct s_line
 {
     char *line;
+    struct s_line *prev;
     struct s_line *next;
 } t_line;
 
@@ -44,8 +45,9 @@ typedef struct s_pars
     int valid_color;//
     char *vision;
     int valid_player;//
-    int start_map;///
+    int start_map;
     int valid_map;
+    char **map;
     t_line *lines;
     t_line *prev_line;
 } t_pars;
@@ -75,8 +77,10 @@ void validate_texture(t_pars *pars,char *str);
 void validate(t_pars *pars);
 void set_color(t_pars *pars,char **colors,int typo);
 void fill_color(t_pars *pars,char *s);
-
+int check_box(t_pars *pars);
 char    **ft_split(char const *s, char c,int *count);
 char	**ft_flex_split(char const *s,int *count_flex);
 void parser(char *filecub);
+void square_box(t_pars *pars);
+void clear_tab(t_pars *pars);
 #endif
