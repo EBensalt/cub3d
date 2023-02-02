@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:59 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/02/02 21:42:39 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/03 00:09:06 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,12 +410,21 @@ int	main(int ac,char **av)
 {
 	t_mlx	*mlx;
 	t_pars *pars;
+	// int	i;
 
+	// i = -1;
 	(void)ac;
 	(void)av;
+	(void)mlx;
 	pars = parser(av[1]);
+	// while (pars->map[++i])
+	// 	printf("%s\n", pars->map[i]);
 	mlx = malloc(sizeof(t_mlx));
-	mlx->map = map_creat();
+	mlx->map = pars->map;
+	// mlx->map = map_creat();
+	// i = -1;
+	// while (mlx->map[++i])
+	// 	printf("%s\n", mlx->map[i]);
 	mlx->init = mlx_init();
 	mlx = map_dem(mlx);
 	mlx->win = mlx_new_window(mlx->init, (mlx->i * 50), (mlx->j * 50), "cub3D");

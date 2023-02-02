@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:35:56 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 21:44:50 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 21:54:40 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,32 @@ void checking_texture(t_pars *pars,char **texture)
     check_valid_dir(p_valid_fill, pars);
 }
 
+void free_tab(char **tab)
+{
+    int i;
+
+    i = -1;
+    while(tab[++i])
+        free(tab[i]);
+    free(tab);
+}
+
 void fill_texture(t_pars *pars,char *s)
 {
     char **texture;
     int count;
-    
     int i;
 
     i = 0;
     if(s == 0)
         return;
     count = 0;
-    
     texture = ft_split_new(s,32,&count);
     if(count > 2)
     {
-        pars->valid_map = 0;
         printf("Error : Invalid texture\n");
         exit(0);
-        i = -1;
-        while(++i < count)
-            free(texture[i]);
-        free(texture);
-        return;
+        // free texture if exit
     }
     if(count == 2)
     {   
@@ -83,11 +86,8 @@ void fill_texture(t_pars *pars,char *s)
             return;
         }
         checking_texture(pars,texture);
-        free(texture[0]);
-        free(texture[1]);
-        free(texture); 
+        free_tab(texture);
     }
-   
 }
 
 void validate_texture(t_pars *pars,char *str)

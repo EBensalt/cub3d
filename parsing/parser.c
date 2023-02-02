@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:05:07 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 21:40:06 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 23:43:33 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,18 +136,21 @@ t_pars* parser(char *filecub)
         }
         else if(pars->valid_direction && pars->valid_color)
             map_check(pars,s);
-        free(s);
+       
         s = 0;
         if(!pars->valid_map)
             break;
+        free(s);
         s = get_next_line(fd);
+         
         if(s == 0)
             break;
         i++;
     }
+    free(s);
     // more validation
     //view(pars);
-    //while(1);
+   // while(1);
     
     square_box(pars);
     clear_tab(pars);
@@ -165,18 +168,18 @@ t_pars* parser(char *filecub)
      
     validate(pars);
     fill_map_lines(pars);
+    //printf("pars map %p\n",pars->map);
     
-   // while(1);
     //system("leaks cub3D | grep leaks | grep for | cut -d ':' -f2 ");
-    //exit(0);
-    //printf("%i\n",pars->valid_map);
-    if(pars->valid_map == 0)
-        {
-            dprintf(1,"Error");
-            exit(0);
-        }
 
+    t_line *current;
 
+    current = pars->lines;
+    while(current)
+    {
+        free(current->line);
+        current = current->next;
+    }
     
     return (pars);
 }
