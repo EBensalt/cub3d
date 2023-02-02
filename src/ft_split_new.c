@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_new_new.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 01:33:47 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/02/02 21:41:25 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 00:27:47 by ebensalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static char	**falloc(char const *s, char c, int a, int f)
 	return (b);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_new(char const *s, char c,int *count)
 {
 	int		a;
 	char	**b;
@@ -104,6 +104,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	a = fword(s, c);
+	*count = a;
 	b = falloc(s, c, a, a);
 	if (b == NULL)
 		return (0);

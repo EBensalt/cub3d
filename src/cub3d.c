@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:59 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/01/27 11:15:18 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 21:42:39 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	**map_creat(void)
 {
 	int		fd;
 	char	**map;
-	int count;
 	char	*map_part;
 	char	*map_line;
 
@@ -67,7 +66,7 @@ char	**map_creat(void)
 		map_part = ft_strdup(get_next_line(fd));
 		map_line = ft_strjoin_1(map_line, map_part);
 	}
-	map = ft_split(map_line, '\n',&count);
+	map = ft_split(map_line, '\n');
 	return (map);
 }
 
@@ -92,11 +91,60 @@ t_mlx	*map_dem(t_mlx *mlx)
 	return (mlx);
 }
 
+// void	draw_walls(t_mlx *mlx)
+// {
+// 	int	i;
+
+// 	while (++i)
+// 	{
+// 		mlx_pixel_put(mlx->init, mlx->win, i, (((mlx->j * 50) / 2) - (i * ((mlx->i * 50) - ))), 0x00FF0000);
+// 	}
+// }
+
+void	rays_draw(t_mlx *mlx)
+{
+	double	x;
+	double	y;
+	int		i;
+	int		j;
+	int		tmp;
+
+	tmp = 0;
+	j = -1;
+	while (++j < (mlx->i * 50))
+	{
+		i = 0;
+		x = mlx->player_x + cos(mlx->player_an);
+		y = mlx->player_y + sin(mlx->player_an);
+		while (mlx->map[(int)y / 50][(int)x / 50] != '1')
+		{
+			x = mlx->player_x + (i * cos(mlx->player_an + (M_PI / 6 - (j * (M_PI / 3) / (mlx->i * 50)))));
+			y = mlx->player_y + (i * sin(mlx->player_an + (M_PI / 6 - (j * (M_PI / 3) / (mlx->i * 50)))));
+			// if (((int)x % 50 == 0 || (int)y % 50 == 0) && tmp == 0)
+			// {
+			// 	if ((int)x % 50 == 0)
+			// 		tmp = 1;
+			// 	if ((int)y % 50 == 0)
+			// 		tmp = 2;
+			// }
+			// if ((int)x % 50 == 0 && tmp == 1)
+				// mlx_pixel_put(mlx->init, mlx->win, x, y, 0x00FF0000);
+			// if ((int)y % 50 == 0 && tmp == 2)
+			// 	mlx_pixel_put(mlx->init, mlx->win, x, y, 0x00FF0000);
+			i++;
+		}
+		mlx_pixel_put(mlx->init, mlx->win, x - 1, y - 1, 0x00FF0000);
+		mlx_pixel_put(mlx->init, mlx->win, x, y, 0x00FF0000);
+		mlx_pixel_put(mlx->init, mlx->win, x + 1, y + 1, 0x00FF0000);
+		// printf("x %f\ny %f\n", x, y);
+	}
+}
+
 void	player_draw(t_mlx *mlx)
 {
-	int	x;
-	int	y;
-	int	i;
+	double	x;
+	double	y;
+	int		i;
 
 	i = -1;
 	mlx->img = mlx_xpm_file_to_image(mlx->init, "p.xpm", &mlx->w, &mlx->h);
@@ -108,6 +156,7 @@ void	player_draw(t_mlx *mlx)
 		y = mlx->player_y + (i * sin(mlx->player_an));
 		mlx_pixel_put(mlx->init, mlx->win, x, y, 0x00FF0000);
 	}
+	rays_draw(mlx);
 }
 
 void	map_draw(t_mlx *mlx)
@@ -132,6 +181,14 @@ void	map_draw(t_mlx *mlx)
 		}
 	}
 	player_draw(mlx);
+	// int	i;
+
+	// i = -1;
+	// while (++i <= (mlx->i * 50))
+	// {
+	// 	mlx_pixel_put(mlx->init, mlx->win, i, ((mlx->j * 50) / 2), 0x00FF0000);
+	// }
+	// player_draw(mlx);
 }
 
 t_mlx	*init_game(t_mlx *mlx)
@@ -171,79 +228,197 @@ int	handler(int key, t_mlx *mlx)
 {
 	if (key == 13)
 	{
-		mlx->player_x += 10 * cos(mlx->player_an);
-		mlx->player_y += 10 * sin(mlx->player_an);
+		mlx->move_up = 1;
+		// mlx->player_x += 10 * cos(mlx->player_an);
+		// mlx->player_y += 10 * sin(mlx->player_an);
 	}
-	// if (key == 0)
-	// {
-	// 	mlx->player_x += 5 * cos(mlx->player_an);
-	// 	mlx->player_y -= 5 * sin(mlx->player_an);
-	// }
+	if (key == 0)
+	{
+		mlx->move_side = 1;
+		// mlx->player_x -= 10 * cos(mlx->player_an + (M_PI / 2));
+		// mlx->player_y -= 10 * sin(mlx->player_an + (M_PI / 2));
+	}
 	if (key == 1)
 	{
-		mlx->player_x -= 10 * cos(mlx->player_an);
-		mlx->player_y -= 10 * sin(mlx->player_an);
+		mlx->move_up = -1;
+		// mlx->player_x -= 10 * cos(mlx->player_an);
+		// mlx->player_y -= 10 * sin(mlx->player_an);
 	}
-	// if (key == 2)
-	// {
-	// 	mlx->player_x -= 5 * cos(mlx->player_an);
-	// 	mlx->player_y += 5 * sin(mlx->player_an);
-	// }
+	if (key == 2)
+	{
+		mlx->move_side = -1;
+		// mlx->player_x += 10 * cos(mlx->player_an + (M_PI / 2));
+		// mlx->player_y += 10 * sin(mlx->player_an + (M_PI / 2));
+	}
 	if (key == 123)
-		mlx->player_an -= 10 *(M_PI / 180);
+	{
+		mlx->arrow = -1;
+		// mlx->player_an -= 10 *(M_PI / 180);
+	}
 	if (key == 124)
-		mlx->player_an += 10 *(M_PI / 180);
-	mlx_clear_window(mlx->init, mlx->win);
-	map_draw(mlx);
+	{
+		mlx->arrow = 1;
+		// mlx->player_an += 10 *(M_PI / 180);
+	}
+	// mlx_clear_window(mlx->init, mlx->win);
+	// map_draw(mlx);
 	return (0);
 }
 
 int	handler_test(t_mlx *mlx)
 {
-	// (void)mlx;
-	// printf("ok\n");
-	mlx_hook(mlx->win, 2, 0, handler, mlx);
+	double	x;
+	double	y;
+	int		i;
+	// int		j;
+
+	x = mlx->player_x;
+	y = mlx->player_y;
+	if (mlx->move_up == 1)
+	{
+		x += 10 * cos(mlx->player_an);
+		y += 10 * sin(mlx->player_an);
+	}
+	if (mlx->move_up == -1)
+	{
+		x -= 10 * cos(mlx->player_an);
+		y -= 10 * sin(mlx->player_an);
+	}
+	if (mlx->move_side == 1)
+	{
+		// mlx->move_side = 1;
+		x -= 10 * cos(mlx->player_an + (M_PI / 2));
+		y -= 10 * sin(mlx->player_an + (M_PI / 2));
+	}
+	if (mlx->move_side == -1)
+	{
+		// mlx->move_side = -1;
+		x += 10 * cos(mlx->player_an + (M_PI / 2));
+		y += 10 * sin(mlx->player_an + (M_PI / 2));
+	}
+	if (mlx->arrow == -1)
+	{
+		mlx->player_an -= 10 *(M_PI / 180);
+		// mlx->arrow = 0;
+	}
+	if (mlx->arrow == 1)
+	{
+		mlx->player_an += 10 *(M_PI / 180);
+		// mlx->arrow = 0;
+	}
+	// j = x / 50;
+	i = -1;
+	if (mlx->map[(int)(y / 50)][(int)(x / 50)] != '1')
+	{
+		mlx->player_x = x;
+		mlx->player_y = y;
+	}
+	else if (mlx->map[(int)(y / 50)][(int)(x / 50)] == '1')
+	{
+		x = mlx->player_x;
+		y = mlx->player_y;
+		while (mlx->map[(int)(y / 50)][(int)(x / 50)] != '1' && ++i < 10)
+		{
+			mlx->player_x = x;
+			mlx->player_y = y;
+			if (mlx->move_up == 1)
+			{
+				x += cos(mlx->player_an);
+				y += sin(mlx->player_an);
+			}
+			if (mlx->move_up == -1)
+			{
+				x -= cos(mlx->player_an);
+				y -= sin(mlx->player_an);
+			}
+			if (mlx->move_side == 1)
+			{
+				x -= cos(mlx->player_an + (M_PI / 2));
+				y -= sin(mlx->player_an + (M_PI / 2));
+			}
+			if (mlx->move_side == -1)
+			{
+				x += cos(mlx->player_an + (M_PI / 2));
+				y += sin(mlx->player_an + (M_PI / 2));
+			}
+		}
+	}
+	mlx_clear_window(mlx->init, mlx->win);
+	map_draw(mlx);
+	// printf("player x %f\n", mlx->player_x);
 	return (0);
 }
 
-void	move_player(t_mlx *mlx)
+int	handler_test1(int key, t_mlx *mlx)
 {
+	// (void)mlx;
+	// printf("ok\n");
 	// mlx_hook(mlx->win, 2, 0, handler, mlx);
+	if (key == 13)
+	{
+		mlx->move_up = 0;
+		// mlx->player_x += 10 * cos(mlx->player_an);
+		// mlx->player_y += 10 * sin(mlx->player_an);
+	}
+	if (key == 0)
+	{
+		mlx->move_side = 0;
+		// mlx->player_x += 5 * cos(mlx->player_an);
+		// mlx->player_y -= 5 * sin(mlx->player_an);
+	}
+	if (key == 1)
+	{
+		mlx->move_up = 0;
+		// mlx->player_x -= 10 * cos(mlx->player_an);
+		// mlx->player_y -= 10 * sin(mlx->player_an);
+	}
+	if (key == 2)
+	{
+		mlx->move_side = 0;
+		// mlx->player_x += 5 * cos(mlx->player_an);
+		// mlx->player_y -= 5 * sin(mlx->player_an);
+	}
+	if (key == 123)
+		mlx->arrow = 0;
+		// mlx->player_an -= 10 *(M_PI / 180);
+	if (key == 124)
+		mlx->arrow = 0;
+		// mlx->player_an += 10 *(M_PI / 180);
+	// mlx->arrow = 0;
+	return (0);
+}
+
+void	move_up_player(t_mlx *mlx)
+{
+	mlx_hook(mlx->win, 2, 0, handler, mlx);
+	mlx_hook(mlx->win, 3, 0, handler_test1, mlx);
 	mlx_loop_hook(mlx->init, handler_test, mlx);
 }
 
 void	game(t_mlx *mlx)
 {
 	mlx = init_game(mlx);
-	move_player(mlx);
+	move_up_player(mlx);
 }
 
 void	td_map(t_mlx *mlx)
 {
-	mlx->init = mlx_init();
-	mlx = map_dem(mlx);
-	mlx->win = mlx_new_window(mlx->init, (mlx->i * 50), (mlx->j * 50), "cub3D");
 	game(mlx);
-	mlx_loop(mlx->init);
 }
 
 int	main(int ac,char **av)
 {
-	//t_mlx	*mlx;
-	
-	(void)av;
-	if(ac != 2)
-		return (1);
-	
-	parser(av[1]);
-	
-	/*
-		mlx = malloc(sizeof(t_mlx));
-		mlx->map = map_creat();
-		td_map(mlx);
-		
-	*/
-		
+	t_mlx	*mlx;
+	t_pars *pars;
 
-	
+	(void)ac;
+	(void)av;
+	pars = parser(av[1]);
+	mlx = malloc(sizeof(t_mlx));
+	mlx->map = map_creat();
+	mlx->init = mlx_init();
+	mlx = map_dem(mlx);
+	mlx->win = mlx_new_window(mlx->init, (mlx->i * 50), (mlx->j * 50), "cub3D");
+	td_map(mlx);
+	mlx_loop(mlx->init);
 }

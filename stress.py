@@ -26,7 +26,7 @@ if choice == "1":
     for file in files:
         cmd = './cub3D ' + path + '/' + file
         output = subprocess.check_output(cmd, shell=True)
-        if(output == "Error"):
+        if("Error" in output):
             print(file + "\033[92m OK\033[0m")
             continue
         else:

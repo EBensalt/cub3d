@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:05:07 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 00:11:15 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 21:40:06 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void validate(t_pars *pars)
     {
          //  printf("checking player\n");
            pars->valid_map = 0;
+           printf("Error : Invalid Player\n");
+            exit(0);
     }
         
 }
@@ -90,7 +92,7 @@ void fill_map_lines(t_pars *pars)
 }
 
 
-void parser(char *filecub)
+t_pars* parser(char *filecub)
 {
     int fd;
     int i;
@@ -117,7 +119,8 @@ void parser(char *filecub)
         if(s == 0 && i == 0 && pars->valid_map)
         {
             pars->valid_map = 0;
-            return;
+            printf("Error : Invalid map\n");
+            exit(0);
         }
             
         if(s != 0)
@@ -175,5 +178,5 @@ void parser(char *filecub)
 
 
     
-    
+    return (pars);
 }

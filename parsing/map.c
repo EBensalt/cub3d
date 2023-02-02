@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:51 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 00:02:18 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 21:40:50 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ int *get_square(t_line *line,int index)
      int *square;
      int sizeline;
      
-     //top bottom
      square = malloc(sizeof(int) * 2);
-     
      if(line->prev == 0)
         square[0] = -1;
       else
@@ -57,8 +55,6 @@ int *get_square(t_line *line,int index)
           else
               square[0] = -1;
       }
-      
-
       if(line->next == 0)
         square[1] = -1;
       else
@@ -93,6 +89,52 @@ int check_point(t_pars *pars,int c,int mod)
     return (0);
 }
 
+void check_first(t_pars *pars,t_line *line, int *square)
+{
+    if(line->prev == 0)
+    {
+        if(check_point(pars,square[1],0) == 0)
+        {
+            pars->valid_map = 0;
+            printf("Error : Invalid Map\n");
+            exit(0);
+        }
+    }
+}
+
+void check_med(t_pars *pars,t_line *line, int *square)
+{
+     if(line->prev != 0 && line->next != 0)
+    {
+        if(check_point(pars,square[0],0) == 0)
+        {
+            pars->valid_map = 0;
+            printf("Error : Invalid Map\n");
+            exit(0);
+        }
+
+        if(check_point(pars,square[1],0) == 0)
+        {
+            pars->valid_map = 0;
+            printf("Error : Invalid Map\n");
+            exit(0);
+        }
+    }
+}
+
+void check_bottom(t_pars *pars,t_line *line, int *square)
+{
+    if (line->next == 0)
+    {
+        if(check_point(pars,square[0],0) == 0)
+        {
+            pars->valid_map = 0;
+            printf("Error : Invalid Map\n");
+            exit(0);
+        }
+    }
+
+}
 
 void square_box(t_pars *pars)
 {
@@ -115,39 +157,10 @@ void square_box(t_pars *pars)
             if(check_point(pars,current->line[i],1))
             {
                 square = get_square(current,i);
-                if(current->prev == 0)
-                {
-                    
-                    if(check_point(pars,square[1],0) == 0)
-                    {
-                        pars->valid_map = 0;
-                        break;
-                    }
-                }
-                if(current->prev != 0 && current->next != 0)
-                {
-                     if(check_point(pars,square[0],0) == 0)
-                    {
-                        pars->valid_map = 0;
-                        break;
-                    }
-
-                     if(check_point(pars,square[1],0) == 0)
-                    {
-                        pars->valid_map = 0;
-                        break;
-                    }
-                }
-                if(current->next == 0)
-                {
-                    if(check_point(pars,square[0],0) == 0)
-                    {
-                        pars->valid_map = 0;
-                        break;
-                    }
-                }
+                check_first(pars,current,square);
+                check_med(pars,current,square);
+                check_bottom(pars,current,square);
             }
-            
             i++;
         }
         if(pars->valid_color == 0)
@@ -201,7 +214,6 @@ int check_box_column(char *line)
         i++;
     if(i == size)
         return (1);
-        
     return (0);
 }
 
@@ -213,69 +225,64 @@ int check_box(t_pars *pars)
     int status;
     
     status = 1;
-    (void)size;
     current = pars->lines;
-
-            firstsize = ft_strlen(current->line);
+    firstsize = ft_strlen(current->line);
+    if(check_box_column(current->line) == 0)
+            status = 0;
+    while(current)
+    {
+        size = ft_strlen(current->line);
+        if(current->line[0] != '1' || current->line[size-1] != '1' )
+                status = 0;
+            
+        if(current->next == 0)
+        {
             if(check_box_column(current->line) == 0)
-                 status = 0;
-                     
-             while(current)
-            {
-                size = ft_strlen(current->line);
-                if(current->line[0] != '1' || current->line[size-1] != '1' )
-                     status = 0;
-                    
-                if(current->next == 0)
-                {
-                    if(check_box_column(current->line) == 0)
-                         status = 0;        
-                       
-                }
-                if(status == 0)
-                    break;
-                current = current->next;
-            }
-         
+                    status = 0;        
+        }
+        if(status == 0)
+            break;
+        current = current->next;
+    }
     return (status);
+}
+
+void set_player(t_pars *pars,char *s,int i)
+{
+    if(s[i] == 'N' || s[i] == 'S' || s[i] == 'W' || s[i] == 'E')
+    {
+        pars->vision = malloc(2);
+        pars->vision[0] = s[i];
+        pars->vision[1] = '\0';
+        pars->valid_player = 1;
+    }
+    else if(!(s[i] == '1' || s[i] == '0'))
+    {
+        pars->valid_map = 0;
+        printf("Error : Invalid Map\n");
+        exit(0);
+    }
 }
 
 int check_valid_column(t_pars *pars,char *s)
 {
     int i;
     int size;
- 
-       
+     
     if(parse_column(s) == 0 && pars->valid_player == 0)
     {
         pars->valid_map = 0;
-        return (0);
+        printf("Error : Invalid Map\n");
+        exit(0);
     }
-   
     size = ft_strlen(s);
     i = 0;
     while(++i < size)
     {
-         if(pars->vision == 0)
-        {
-            
-            if(s[i] == 'N' || s[i] == 'S' || s[i] == 'W' || s[i] == 'E')
-            {
-                pars->vision = malloc(2);
-                pars->vision[0] = s[i];
-                pars->vision[1] = '\0';
-                pars->valid_player = 1;
-            }
-            else if(!(s[i] == '1' || s[i] == '0'))
-            {
-                pars->valid_map = 0;
-                return (0); 
-            }
-                
-        }
+        if(pars->vision == 0)
+            set_player(pars,s,i);
         else if(!(s[i] == '1' || s[i] == '0'))
             return (0);
-            
     }
     if(size > 1)
     {
@@ -297,49 +304,12 @@ void clear_tab(t_pars *pars)
     }
 }
 
-void map_check(t_pars *pars,char *s)
+void fill_lines(t_pars *pars,char *s)
 {
-    int count;
-    int status;
-    char **line;
-    int size;
-    int i;
     t_line *new;
+    int size;
     
-
     size = ft_strlen(s);
-    status = 1;
-    count = 0;
-    line = ft_split(s,32,&count);
-    i = 0;
-    while(i < count)
-    {
-        if(check_valid_column(pars,line[i]) == 0)
-        {
-            status = 0;
-            break;
-        }
-        i++;
-    }
-    if(status == 1 && pars->start_map == 0)
-        pars->start_map = 1;
-    if(status == 0 && pars->start_map == 1)
-    {
-           pars->valid_map = 0;
-    }
-      
-       
-        
-    
-    if(status == 0 && pars->start_map == 1)
-    {
-         pars->valid_map = 0;
-    }
-          
-        
-
-    
-
     if(pars->valid_map == 1 &&  pars->start_map == 1 && size > 0)
     {
         if(pars->prev_line == 0)
@@ -360,12 +330,51 @@ void map_check(t_pars *pars,char *s)
             pars->prev_line = new;
         }
     }
-        
+}
+
+void check_errors_map(t_pars *pars,int status)
+{
+    if(status == 1 && pars->start_map == 0)
+        pars->start_map = 1;
+    if(status == 0 && pars->start_map == 1)
+    {
+           pars->valid_map = 0;
+           printf("Error : Invalid Map\n");
+           exit(0);
+    }
+    if(status == 0 && pars->start_map == 1)
+    {
+         pars->valid_map = 0;
+         printf("Error : Invalid Map\n");
+         exit(0);
+    }
+}
+
+void map_check(t_pars *pars,char *s)
+{
+    int count;
+    int status;
+    char **line;
+    int i;
+    
+    status = 1;
+    count = 0;
+    line = ft_split_new(s,32,&count);
+    i = 0;
+    while(i < count)
+    {
+        if(check_valid_column(pars,line[i]) == 0)
+        {
+            status = 0;
+            break;
+        }
+        i++;
+    }
+    check_errors_map(pars,status);
+    fill_lines(pars,s);
     i = -1;
     while(++i < count)
         free(line[i]);
      free(line);
-
-    
 }
 

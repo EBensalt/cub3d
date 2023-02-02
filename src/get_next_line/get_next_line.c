@@ -3,69 +3,123 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ebensalt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 10:05:28 by aniouar           #+#    #+#             */
-/*   Updated: 2021/12/21 09:11:44 by aniouar          ###   ########.fr       */
+/*   Created: 2022/01/05 15:39:06 by ebensalt          #+#    #+#             */
+/*   Updated: 2022/02/04 21:39:44 by ebensalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*make_line(char **saved, int pos, char **buffer)
+char	*ft_strrrchr(const char *s, int c)
 {
-	char	*line;
+	char	a;
+	int		b;
+	char	*d;
+	int		i;
 
-	line = ft_substr(*saved, 0, (pos + 1), 0);
-	*saved = ft_substr(*saved, (pos + 1), ft_strlen(*saved), 1);
-	free(*buffer);
+	if (!s)
+		return (0);
+	a = (char)c;
+	b = 0;
+	d = ft_strdup(s);
+	i = ft_strlen(s);
+	while (b <= i)
+	{
+		if (s[b] == a)
+		{
+			d[b + 1] = '\0';
+			return (d);
+		}
+		b++;
+	}
+	free(d);
+	return (0);
+}
+
+char	*ft_stchr(const char *s, int c)
+{
+	char	a;
+	int		b;
+	char	*d;
+
+	if (!s)
+		return (0);
+	a = (char)c;
+	b = 0;
+	while (s[b] != '\0')
+	{
+		if (s[b] == a)
+		{
+			d = ft_strdup(s + b + 1);
+			free((char *)s);
+			return (d);
+		}
+		b++;
+	}
+	free((char *)s);
+	return (0);
+}
+
+char	*ft_end(char *line, char *buf, int i, int j)
+{
+	if (((i == 0 && j == 0) || i == -1) && (!line || line[0] == '\0'))
+	{
+		free(line);
+		return (0);
+	}
+	if (i == 0 && j != 0)
+		return (line);
+	else
+	{	
+		if (!line)
+			line = ft_strdup(buf);
+		else
+			line = ft_strjoin(line, buf);
+	}
 	return (line);
 }
 
-char	*more_of_gnl(char **saved, char **buffer, int status)
+char	*get_next_line_resum(char *line, int fd, char *buf, int j)
 {
-	char	*line;
+	int	i;
 
-	line = 0;
-	if (*saved && ft_strlen(*saved) > 0)
+	while (ft_strchr(line, '\n') == 0)
 	{
-		line = ft_strjoin(*saved, *buffer);
-		*saved = 0;
-	}
-	if (status != -1 && *saved)
-	{
-		free(*saved);
-		*saved = 0;
-	}
-	if (*buffer != 0)
-	{
-		free(*buffer);
-		*buffer = 0;
+		i = read(fd, buf, BUFFER_SIZE);
+		buf[i] = '\0';
+		if (i < BUFFER_SIZE)
+		{
+			line = ft_end(line, buf, i, j);
+			break ;
+		}
+		if (!line)
+			line = ft_strdup(buf);
+		else
+			line = ft_strjoin(line, buf);
+		j++;
 	}
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*saved;
-	int			pos;
-	char		*buffer;
-	int			len;
+	static char	*line;
+	char		*buf;
+	char		*result;
+	int			j;
 
-	len = 1;
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (more_of_gnl(&saved, &buffer, -1));
-	while (len > 0)
-	{
-		len = read(fd, buffer, BUFFER_SIZE);
-		if (len == -1 || (len == 0 && ft_strlen(saved) == 0))
-			break ;
-		buffer[len] = '\0';
-		saved = ft_strjoin(saved, buffer);
-		pos = ft_strpos(saved, '\n');
-		if (pos >= 0)
-			return (make_line(&saved, pos, &buffer));
-	}
-	return (more_of_gnl(&saved, &buffer, len));
+	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (buf == NULL)
+		return (0);
+	j = 0;
+	line = get_next_line_resum(line, fd, buf, j);
+	if (ft_strchr(line, '\n') == 0)
+		result = ft_strrrchr(line, '\0');
+	else
+		result = ft_strrrchr(line, '\n');
+	line = ft_stchr(line, '\n');
+	free(buf);
+	return (result);
 }

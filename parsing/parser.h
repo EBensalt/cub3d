@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:06:06 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 00:11:02 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 21:44:11 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ void validate(t_pars *pars);
 void set_color(t_pars *pars,char **colors,int typo);
 void fill_color(t_pars *pars,char *s);
 int check_box(t_pars *pars);
-char    **ft_split(char const *s, char c,int *count);
+char    **ft_split_new(char const *s, char c,int *count);
 char	**ft_flex_split(char const *s,int *count_flex);
-void parser(char *filecub);
+t_pars* parser(char *filecub);
 void square_box(t_pars *pars);
 void clear_tab(t_pars *pars);
 #endif

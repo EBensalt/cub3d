@@ -6,11 +6,17 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:35:56 by aniouar           #+#    #+#             */
-/*   Updated: 2023/01/31 16:05:52 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/02 21:44:50 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+void check_valid_dir( char **p_valid_fill, t_pars *pars)
+{
+    if(n_powtwo(*p_valid_fill) == 1 && ft_strlen(*p_valid_fill) == 4)
+        pars->valid_direction = 1;
+}
 
 void checking_texture(t_pars *pars,char **texture)
 {
@@ -19,7 +25,7 @@ void checking_texture(t_pars *pars,char **texture)
 
     size = ft_strlen(texture[0]);
     p_valid_fill = &pars->dir_texture->valid_fill;
-     if(strcmp(texture[0],"NO") == 0 && size == 2)
+    if(strcmp(texture[0],"NO") == 0 && size == 2)
     {
         *p_valid_fill = ft_strjoin(*p_valid_fill,"n");
         pars->dir_texture->no = ft_strdup(texture[1]);
@@ -39,9 +45,7 @@ void checking_texture(t_pars *pars,char **texture)
         *p_valid_fill = ft_strjoin(*p_valid_fill,"e");
         pars->dir_texture->ea = ft_strdup(texture[1]);
     }
-
-    if(n_powtwo(*p_valid_fill) == 1 && ft_strlen(*p_valid_fill) == 4)
-        pars->valid_direction = 1;
+    check_valid_dir(p_valid_fill, pars);
 }
 
 void fill_texture(t_pars *pars,char *s)
@@ -56,10 +60,12 @@ void fill_texture(t_pars *pars,char *s)
         return;
     count = 0;
     
-    texture = ft_split(s,32,&count);
+    texture = ft_split_new(s,32,&count);
     if(count > 2)
     {
         pars->valid_map = 0;
+        printf("Error : Invalid texture\n");
+        exit(0);
         i = -1;
         while(++i < count)
             free(texture[i]);
@@ -88,21 +94,26 @@ void validate_texture(t_pars *pars,char *str)
 {
     int fd;
     char *s;
-    
-     if(str != 0)
+    (void)pars;
+    if(str)
     {
         if(ft_strlen(str) >= 3)
         {
-             ft_cleanline(&str[2]);
+            ft_cleanline(&str[2]);
             s = &str[2];
             fd = open(s, O_RDONLY);
             if(fd == -1)
-                pars->valid_map = 0;
+            {
+                printf("Error : Invalid texture\n");
+                exit(0);
+            }
             else
                 close(fd);       
         }
         else
-               pars->valid_map = 0;
-        
+        {
+            printf("Error : Invalid texture\n");
+            exit(0);
+        }
     }
 }
