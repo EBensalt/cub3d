@@ -58,6 +58,6 @@ else :
             #bad.append(file)
 
 
-print(bad)
+#print(bad)
 
 

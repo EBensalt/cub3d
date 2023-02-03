@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:51 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 23:26:39 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:32:50 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void check_bottom(t_pars *pars,t_line *line, int *square)
 
 }
 
+
 void square_box(t_pars *pars)
 {
     t_line *current;
@@ -160,6 +161,7 @@ void square_box(t_pars *pars)
                 check_first(pars,current,square);
                 check_med(pars,current,square);
                 check_bottom(pars,current,square);
+                free(square);
             }
             i++;
         }

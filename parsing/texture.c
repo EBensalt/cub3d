@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:35:56 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 21:54:40 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:29:52 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void fill_texture(t_pars *pars,char *s)
             return;
         }
         checking_texture(pars,texture);
-        free_tab(texture);
     }
+    free_tab(texture);
 }
 
 void validate_texture(t_pars *pars,char *str)

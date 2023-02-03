@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:30:02 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 23:32:54 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:32:47 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void parse_color(t_pars *pars,char *s)
         if(s[0] == ',' || s[size-1] == ',')
         {
             pars->valid_map = 0;
+            
             printf("Error : Invalid Color\n");
             exit(0);
         }       

@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:05:07 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 23:43:33 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:51:54 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,18 @@ void init_pars(t_pars *pars)
     pars->prev_line = 0;
 }
 
-
-
 void validate(t_pars *pars)
 {
-   
     validate_texture(pars,pars->dir_texture->no);
     validate_texture(pars,pars->dir_texture->we);
     validate_texture(pars,pars->dir_texture->ea);
     validate_texture(pars,pars->dir_texture->so);
-
-    /*
-    
-    */
     if(pars->vision == 0)
     {
-         //  printf("checking player\n");
-           pars->valid_map = 0;
-           printf("Error : Invalid Player\n");
-            exit(0);
+        pars->valid_map = 0;
+        printf("Error : Invalid Map\n");
+        exit(0);
     }
-        
 }
 
 int get_count(t_line *line)
@@ -91,6 +82,48 @@ void fill_map_lines(t_pars *pars)
 
 }
 
+void free_map_list(t_pars *pars)
+{
+    t_line *current;
+    
+    current = pars->lines;
+    while(current)
+    {
+        free(current->line);
+        current = current->next;
+    }
+}
+
+void more_parser(t_pars *pars)
+{
+    square_box(pars);
+    fill_map_lines(pars);
+    clear_tab(pars);
+    if(pars->lines != 0)
+    { 
+        if(check_box(pars) == 0)
+        {
+            printf("Error : Invalid map\n");
+            exit(0);
+        }
+    }
+    validate(pars);
+    free_map_list(pars);
+}
+
+void core_parser(t_pars *pars, char *s)
+{
+    if(s != 0)
+        ft_cleanline(s);
+    if(!pars->valid_direction || !pars->valid_color)
+    {
+        fill_color(pars,s);
+        fill_texture(pars,s);
+    }
+    else if(pars->valid_direction && pars->valid_color)
+        map_check(pars,s);
+
+}
 
 t_pars* parser(char *filecub)
 {
@@ -99,87 +132,24 @@ t_pars* parser(char *filecub)
     char *s;
     t_pars *pars;
 
-    
-    
     pars = malloc(sizeof(t_pars));
-    
     init_pars(pars);
-   
-    
     fd = open(filecub, O_RDONLY);
     if(fd == -1)
     {
-        //dprintf(1,"Error\n");
+        printf("Error : invalid map file\n");
         exit(0);
     }
     i = 0;
     s = get_next_line(fd);
     while(s)
     {
-        if(s == 0 && i == 0 && pars->valid_map)
-        {
-            pars->valid_map = 0;
-            printf("Error : Invalid map\n");
-            exit(0);
-        }
-            
-        if(s != 0)
-        {
-            ft_cleanline(s);
-            //s = clean_column_space(s);  
-        }
-        
-        if(!pars->valid_direction || !pars->valid_color)
-        {
-            fill_color(pars,s);
-            fill_texture(pars,s);
-        }
-        else if(pars->valid_direction && pars->valid_color)
-            map_check(pars,s);
-       
-        s = 0;
+        core_parser(pars,s);
         if(!pars->valid_map)
             break;
         free(s);
         s = get_next_line(fd);
-         
-        if(s == 0)
-            break;
-        i++;
     }
-    free(s);
-    // more validation
-    //view(pars);
-   // while(1);
-    
-    square_box(pars);
-    clear_tab(pars);
-     //view_lines(pars);  
-    
-    //printf("checking box status %i\n",);
-    
-         if(pars->lines != 0)
-            { 
-                if(check_box(pars) == 0)
-                    pars->valid_map = 0;
-                
-            }
-       
-     
-    validate(pars);
-    fill_map_lines(pars);
-    //printf("pars map %p\n",pars->map);
-    
-    //system("leaks cub3D | grep leaks | grep for | cut -d ':' -f2 ");
-
-    t_line *current;
-
-    current = pars->lines;
-    while(current)
-    {
-        free(current->line);
-        current = current->next;
-    }
-    
+    more_parser(pars);
     return (pars);
 }
