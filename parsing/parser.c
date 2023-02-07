@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:05:07 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/03 17:51:54 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:57:47 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,15 @@ void validate(t_pars *pars)
     validate_texture(pars,pars->dir_texture->we);
     validate_texture(pars,pars->dir_texture->ea);
     validate_texture(pars,pars->dir_texture->so);
-    if(pars->vision == 0)
+    /*
+        if(pars->vision == 0)
     {
         pars->valid_map = 0;
-        printf("Error : Invalid Map\n");
+        printf("Error : Invalid Map 110\n");
         exit(0);
     }
+    */
+    
 }
 
 int get_count(t_line *line)
@@ -98,15 +101,18 @@ void more_parser(t_pars *pars)
 {
     square_box(pars);
     fill_map_lines(pars);
-    clear_tab(pars);
-    if(pars->lines != 0)
-    { 
-        if(check_box(pars) == 0)
-        {
-            printf("Error : Invalid map\n");
-            exit(0);
+    //clear_tab(pars);
+    /*
+        if(pars->lines != 0)
+        { 
+            if(check_box(pars) == 0)
+            {
+                printf("Error : Invalid map 112\n");
+                exit(0);
+            }
         }
-    }
+    */
+    
     validate(pars);
     free_map_list(pars);
 }
@@ -150,6 +156,7 @@ t_pars* parser(char *filecub)
         free(s);
         s = get_next_line(fd);
     }
+    view_lines(pars);
     more_parser(pars);
     return (pars);
 }

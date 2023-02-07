@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:06:06 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 21:44:11 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/07 16:32:21 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int check_map_line(char *s);
 int parse_column(char *s);
 int check_valid_column(t_pars *pars,char *s);
 int ft_strpos_flex(char *s);
+int check_walls(char *s);
 char *clean_column_space(char *s);
 void map_check(t_pars *pars,char *s);
 void init_pars(t_pars *pars);
@@ -83,4 +84,8 @@ char	**ft_flex_split(char const *s,int *count_flex);
 t_pars* parser(char *filecub);
 void square_box(t_pars *pars);
 void clear_tab(t_pars *pars);
+int check_walls(char *s);
+int check_medline(t_pars *pars,char *s);
+int left_space(char *s);
+int right_space(char *s);
 #endif

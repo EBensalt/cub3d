@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:27:00 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/03 01:29:13 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/07 19:06:12 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void view_lines(t_pars *pars)
 
     while(current)
     {
-        printf("line %s\n",current->line);
+        printf("line %s with size %zu next:%p\n",current->line,ft_strlen(current->line),current->next);
         current = current->next;
     }
 }

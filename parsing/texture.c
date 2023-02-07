@@ -6,13 +6,13 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:35:56 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/03 17:29:52 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/07 17:49:13 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void check_valid_dir( char **p_valid_fill, t_pars *pars)
+void check_valid_dir(char **p_valid_fill, t_pars *pars)
 {
     if(n_powtwo(*p_valid_fill) == 1 && ft_strlen(*p_valid_fill) == 4)
         pars->valid_direction = 1;

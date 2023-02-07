@@ -104,7 +104,8 @@ char	**ft_split_new(char const *s, char c,int *count)
 	if (!s)
 		return (0);
 	a = fword(s, c);
-	*count = a;
+	if(count)
+		*count = a;
 	b = falloc(s, c, a, a);
 	if (b == NULL)
 		return (0);
