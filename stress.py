@@ -24,6 +24,7 @@ if choice == "1":
     files = os.listdir(path)
     cmd = 'ls -l'
     for file in files:
+        #print(file)
         cmd = './cub3D ' + path + '/' + file
         output = subprocess.check_output(cmd, shell=True)
         if("Error" in output):
@@ -40,6 +41,7 @@ else :
     files = os.listdir(path)
     cmd = 'ls -l'
     for file in files:
+        #print(file)
         cmd = './cub3D ' + path + '/' + file
         output = subprocess.check_output(cmd, shell=True)
         if(output == ""):

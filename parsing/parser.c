@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:05:07 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/07 18:57:47 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/09 19:12:09 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,28 @@ void validate(t_pars *pars)
     validate_texture(pars,pars->dir_texture->we);
     validate_texture(pars,pars->dir_texture->ea);
     validate_texture(pars,pars->dir_texture->so);
+
+    if(pars->valid_direction == 0)
+    {
+        printf("Error : Invalid texture\n");
+        exit(0);
+    }
+     if(pars->valid_color == 0)
+    {
+        printf("Error : Invalid Color\n");
+        exit(0);
+    }
+    if(pars->start_map == 0)
+    {
+        printf("Error : Invalid Map\n");
+        exit(0);
+    }
+
+     if(pars->valid_player == 0)
+    {
+        printf("Error : Invalid Player\n");
+        exit(0);
+    }
     /*
         if(pars->vision == 0)
     {
@@ -99,10 +121,11 @@ void free_map_list(t_pars *pars)
 
 void more_parser(t_pars *pars)
 {
+    validate(pars);
     square_box(pars);
     fill_map_lines(pars);
     //clear_tab(pars);
-    /*
+    
         if(pars->lines != 0)
         { 
             if(check_box(pars) == 0)
@@ -111,24 +134,20 @@ void more_parser(t_pars *pars)
                 exit(0);
             }
         }
-    */
-    
-    validate(pars);
     free_map_list(pars);
 }
 
 void core_parser(t_pars *pars, char *s)
 {
-    if(s != 0)
-        ft_cleanline(s);
+    // if(s != 0)
+    //     ft_cleanline(s);
     if(!pars->valid_direction || !pars->valid_color)
     {
         fill_color(pars,s);
         fill_texture(pars,s);
     }
     else if(pars->valid_direction && pars->valid_color)
-        map_check(pars,s);
-
+       map_check(pars,s);
 }
 
 t_pars* parser(char *filecub)
@@ -150,13 +169,14 @@ t_pars* parser(char *filecub)
     s = get_next_line(fd);
     while(s)
     {
+        ft_cleanline(s);
         core_parser(pars,s);
-        if(!pars->valid_map)
-            break;
         free(s);
         s = get_next_line(fd);
     }
-    view_lines(pars);
+    //view(pars);
+    //view_lines(pars);
     more_parser(pars);
+    
     return (pars);
 }

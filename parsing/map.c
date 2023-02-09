@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:51 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/07 19:08:37 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/09 19:01:31 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,23 @@ void set_sizes(t_line *line, int *sizeprev,int *sizenext)
         *sizenext = -1;      
 }
 
+void check_left_right(t_line *line,int index)
+{
+    int sizeline;
+    char c;
+    
+    sizeline = ft_strlen(line->line);
+    c = line->line[index];
+
+    if(c == '0')
+    {
+        if(line->line[index+1] == 32 || line->line[index-1] == 32)
+        {
+            printf("Error: Invalid map\n");
+            exit(0);
+        }
+    }
+}
 
 int *get_square(t_line *line,int index)
 {
@@ -65,24 +82,27 @@ int *get_square(t_line *line,int index)
           else
               square[1] = -1;
       }
+      check_left_right(line,index);
      return (square);
 }
 
 int check_point(t_pars *pars,int c,int mod)
 {
-    if(pars->vision != 0)
-    {
-        if(c == pars->vision[0])
-            return (1);
-    }
+   
+    
     if(mod == 0)
     {
-        if(c == '0' || c == '1' || c == pars->vision[0])
-             return (1);
+        if(pars->vision)
+            if(c == pars->vision[0])
+                return (1);
+        if(c == '0' || c == '1')
+        {
+            return (1);
+        }    
     }
     else
     {
-        if(c == '0')
+        if(c == '0' || c == pars->vision[0])
             return (1);
     }
      
@@ -93,33 +113,31 @@ void check_first(t_pars *pars,t_line *line, int *square)
 {
     if(line->prev == 0)
     {
+        
         if(check_point(pars,square[1],0) == 0)
-        {
-            pars->valid_map = 0;
-           
+        {           
             printf("Error : Invalid Map 101\n");
             exit(0);
         }
     }
 }
 
-void check_med(t_pars *pars,t_line *line, int *square,char c)
+void check_med(t_pars *pars,t_line *line, int *square)
 {
 
      if(line->prev != 0 && line->next != 0)
     {
+        
         if(check_point(pars,square[0],0) == 0)
         {
-            pars->valid_map = 0;
             printf("Error : Invalid Map 103\n");
             exit(0);
         }
         if(check_point(pars,square[1],0) == 0)
         {
-            pars->valid_map = 0;
-            printf("line : %s\n",line->line);
-            printf("what means %i and im %c\n",square[1],c);
-            printf("Error : Invalid Map 104\n");
+            //printf("line : %s\n",line->line);
+            //printf("what means %i and im %c\n",square[1],c);
+            printf("Error : Invalid Map 104 %s\n",pars->vision);
             exit(0);
         }
     }
@@ -131,7 +149,6 @@ void check_bottom(t_pars *pars,t_line *line, int *square)
     {
         if(check_point(pars,square[0],0) == 0)
         {
-            pars->valid_map = 0;
             printf("Error : Invalid Map 105 \n");
             exit(0);
         }
@@ -160,9 +177,10 @@ void square_box(t_pars *pars)
         {
             if(check_point(pars,current->line[i],1))
             {
+                
                 square = get_square(current,i);
                 check_first(pars,current,square);
-                check_med(pars,current,square,current->line[i]);
+                check_med(pars,current,square);
                 check_bottom(pars,current,square);
                 free(square);
             }
@@ -228,7 +246,7 @@ int check_box(t_pars *pars)
     while(current)
     {
         size = ft_strlen(current->line);
-        if(!check_walls(current->line))
+        if(!check_line(current->line))
         {
             printf("line %s 313\n",current->line);
               status = 0;
@@ -262,22 +280,33 @@ void clear_tab(t_pars *pars)
 }
 
 
-void set_player(t_pars *pars,char *s,int i)
+void set_player(t_pars *pars,char *s)
 {
-    if(s[i] == 'N' || s[i] == 'S' || s[i] == 'W' || s[i] == 'E')
+    int i;
+    
+    i = -1;
+    while(s[++i])
     {
-        pars->vision = malloc(2);
-        pars->vision[0] = s[i];
-        pars->vision[1] = '\0';
-        pars->valid_player = 1;
-    }
-    else if(!(s[i] == '1' || s[i] == '0'))
-    {
-        pars->valid_map = 0;
-        printf("Error :  106\n");
-        exit(0);
+        if(s[i] == 'N' || s[i] == 'S' || s[i] == 'W' || s[i] == 'E')
+        {
+            if(pars->vision == 0)
+            {
+                
+                pars->vision = malloc(2);
+                pars->vision[0] = s[i];
+                pars->vision[1] = '\0';
+                 printf("Error : vision %s\n",pars->vision);
+                pars->valid_player = 1;
+            }
+            else
+            {
+                printf("Error : Invalid Map 301 %c\n",s[i]);
+                exit(0);
+            }
+        }
     }
 }
+   
 
 int parse_column(char *s)
 {
@@ -285,7 +314,6 @@ int parse_column(char *s)
 
     
     size = ft_strlen(s);
-    
     if(size > 1)
     {
         if(s[0] !=  '1' || s[size-1] != '1')
@@ -297,34 +325,9 @@ int parse_column(char *s)
         //printf("line %s with left space is %i and size of %i \n",s,left_space(s),size);
         return (0);
     }
-        
-    
     return (1);
 }
 
-int check_valid_column(t_pars *pars,char *s)
-{
-    int i;
-    int size;
-
-    if(parse_column(s) == 0 || ft_strlen(s) == 0)
-        return (0);
-    size = ft_strlen(s);
-    i = 0;
-    while(++i < size)
-    {
-        if(pars->vision == 0)
-            set_player(pars,s,i);
-        else if(!(s[i] == '1' || s[i] == '0'))
-            return (0);
-    }
-    if(size > 1)
-    {
-        if(check_walls(s))
-            return (0);
-    }
-    return (1);
-}
 
 
 void fill_lines(t_pars *pars,char *s)
@@ -361,7 +364,6 @@ void check_errors_map(t_pars *pars,int status)
         pars->start_map = 1;
     if(status == 0 && pars->start_map == 1)
     {
-           pars->valid_map = 0;
            printf("Error : Invalid Map 108\n");
            exit(0);
     }
@@ -370,13 +372,15 @@ void check_errors_map(t_pars *pars,int status)
 void map_check(t_pars *pars,char *s)
 {
     int status;
-    
     status = 1;
   
     if(pars->start_map == 0)
     {
+        
         if(check_walls(s) == 0)
             status = 0;
+        if(status)
+            pars->start_map = 1;
     }
     else
     {
@@ -384,7 +388,7 @@ void map_check(t_pars *pars,char *s)
             status = 0;
     }
     
-    printf("line %s with status of %i and size %zu\n",s,status,ft_strlen(s));
+    //printf("line %s with status of %i and size %zu\n",s,status,ft_strlen(s));
     check_errors_map(pars,status);
     if(status)
         fill_lines(pars,s);

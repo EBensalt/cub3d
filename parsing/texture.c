@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:35:56 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/07 17:49:13 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/09 16:08:48 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,10 @@ void validate_texture(t_pars *pars,char *str)
             printf("Error : Invalid texture\n");
             exit(0);
         }
+    }
+    else
+    {
+        printf("Error : Invalid texture\n");
+        exit(0);
     }
 }

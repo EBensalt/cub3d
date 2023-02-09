@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:30:02 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/03 16:32:47 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/09 17:42:49 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@ void parse_color(t_pars *pars,char *s)
 {
     int size;
 
+    (void)pars; 
     size = ft_strlen(s);
     if(size > 1)
     {
         if(s[0] == ',' || s[size-1] == ',')
-        {
-            pars->valid_map = 0;
-            
-            printf("Error : Invalid Color\n");
+        {            
+            printf("Error : Invalid Color 103\n");
             exit(0);
         }       
     }
@@ -46,17 +45,15 @@ void check_set_color(t_pars *pars, char **colors, int *tab, char **rgb, int typo
     tab[0] = atoi(rgb[0]);
     tab[1] = atoi(rgb[1]);   
     tab[2] = atoi(rgb[2]);
-    if(check_num(rgb, 3) == 0 || count_delimiter(colors[1],',') != 2)
+    if(check_num(tab,rgb, 3) == 0 || count_delimiter(colors[1],',') != 2)
     {
-        pars->valid_map = 0;
-        printf("Error : Invalid Color\n");
+        printf("Error : Invalid Color 101\n");
         exit(0);
     }
     if( (tab[0] < 0 || tab[0] > 255) || (tab[1] < 0 || tab[1] > 255)
             || (tab[2] < 0 || tab[2] > 255))
     {
-        pars->valid_map = 0;
-            printf("Error : Invalid Color\n");
+            printf("Error : Invalid Color 102 \n");
         exit(0);
     }
     color = (tab[0] << 16) | (tab[1] << 8) | tab[2];
@@ -110,7 +107,7 @@ void fill_color(t_pars *pars,char *s)
      char **colors;
      int count;
      int i;
-
+    
     if(pars->valid_color)
           return;
      colors = ft_split_new(s,32,&count);

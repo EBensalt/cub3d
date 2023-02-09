@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:06:06 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/07 16:32:21 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/09 17:46:24 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int count_char(char c,char *s);
 int n_powtwo(char *s);
 void fill_texture(t_pars *pars,char *s);
 void parse_color(t_pars *pars,char *s);
-int check_num(char **colors, int size);
+int check_num(int *colors, char **rgb, int size);
 int count_delimiter(char *s,char lim);
 int check_map_line(char *s);
 int parse_column(char *s);
@@ -88,4 +88,5 @@ int check_walls(char *s);
 int check_medline(t_pars *pars,char *s);
 int left_space(char *s);
 int right_space(char *s);
+int check_line(char *s);
 #endif
