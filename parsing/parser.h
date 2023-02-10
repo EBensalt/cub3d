@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:06:06 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/10 10:33:14 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/10 11:12:09 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,5 @@ int check_medline(t_pars *pars,char *s);
 int left_space(char *s);
 int right_space(char *s);
 int check_line(char *s);
+void throw_error(char *s);
 #endif

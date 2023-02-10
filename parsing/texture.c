@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:35:56 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/09 16:08:48 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/10 11:23:40 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,7 @@ void fill_texture(t_pars *pars,char *s)
     count = 0;
     texture = ft_split_new(s,32,&count);
     if(count > 2)
-    {
-        printf("Error : Invalid texture\n");
-        exit(0);
-        // free texture if exit
-    }
+        throw_error("Error : Invalid texture");
     if(count == 2)
     {   
         if(strcmp(texture[0],s) == 0)
@@ -103,22 +99,13 @@ void validate_texture(t_pars *pars,char *str)
             s = &str[2];
             fd = open(s, O_RDONLY);
             if(fd == -1)
-            {
-                printf("Error : Invalid texture\n");
-                exit(0);
-            }
+                throw_error("Error : Invalid texture");
             else
                 close(fd);       
         }
         else
-        {
-            printf("Error : Invalid texture\n");
-            exit(0);
-        }
+            throw_error("Error : Invalid texture");
     }
     else
-    {
-        printf("Error : Invalid texture\n");
-        exit(0);
-    }
+        throw_error("Error : Invalid texture");
 }

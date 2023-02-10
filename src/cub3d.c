@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:59 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/02/10 10:56:42 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/10 11:26:16 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,7 +352,7 @@ int	handler_test(t_mlx *mlx)
 int	handler_test1(int key, t_mlx *mlx)
 {
 	// (void)mlx;
-	// printf("ok\n");
+	// printf("ok");
 	// mlx_hook(mlx->win, 2, 0, handler, mlx);
 	if (key == 13)
 	{
@@ -422,17 +422,17 @@ int	main(int ac,char **av)
 	//system("leaks cub3D | grep leaks | grep for | cut -d ':' -f2 ");
 
 	
-	mlx = malloc(sizeof(t_mlx));
-	mlx->map = pars->map;
-	// mlx->map = map_creat();
-	// i = -1;
-	// while (mlx->map[++i])
-	// 	printf("%s\n", mlx->map[i]);
-	mlx->init = mlx_init();
-	mlx = map_dem(mlx);
-	mlx->win = mlx_new_window(mlx->init, (mlx->i * 50), (mlx->j * 50), "cub3D");
-	td_map(mlx);
-	mlx_loop(mlx->init);
+	// mlx = malloc(sizeof(t_mlx));
+	// mlx->map = pars->map;
+	// // mlx->map = map_creat();
+	// // i = -1;
+	// // while (mlx->map[++i])
+	// // 	printf("%s\n", mlx->map[i]);
+	// mlx->init = mlx_init();
+	// mlx = map_dem(mlx);
+	// mlx->win = mlx_new_window(mlx->init, (mlx->i * 50), (mlx->j * 50), "cub3D");
+	// td_map(mlx);
+	// mlx_loop(mlx->init);
 	
 		
 	
