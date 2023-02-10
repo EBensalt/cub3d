@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:51 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/09 19:01:31 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/10 10:48:46 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void square_box(t_pars *pars)
             }
             i++;
         }
+       
         if(pars->valid_color == 0)
             break;
         current = current->next;
@@ -222,6 +223,8 @@ int check_box_column(char *line)
     {
         if(line[i] == '1')
             i++;
+        else
+            break;
     }    
     
     if(i == x)
@@ -245,12 +248,14 @@ int check_box(t_pars *pars)
            
     while(current)
     {
+       
         size = ft_strlen(current->line);
         if(!check_line(current->line))
         {
             printf("line %s 313\n",current->line);
               status = 0;
         }
+       
         if(current->next == 0)
         {
             if(check_box_column(current->line) == 0)
@@ -260,10 +265,12 @@ int check_box(t_pars *pars)
             }
                    
         }
+        // printf("line %s\n",current->line);
         if(status == 0)
             break;
         current = current->next;
     }
+     
     return (status);
 }
 
@@ -319,12 +326,8 @@ int parse_column(char *s)
         if(s[0] !=  '1' || s[size-1] != '1')
             return (0);
     }
-   
     else if(left_space(s) == size && size > 0)
-    {
-        //printf("line %s with left space is %i and size of %i \n",s,left_space(s),size);
         return (0);
-    }
     return (1);
 }
 

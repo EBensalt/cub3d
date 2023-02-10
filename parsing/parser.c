@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:05:07 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/09 19:12:09 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/10 10:51:24 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,18 +122,22 @@ void free_map_list(t_pars *pars)
 void more_parser(t_pars *pars)
 {
     validate(pars);
+    
     square_box(pars);
+    
     fill_map_lines(pars);
     //clear_tab(pars);
     
         if(pars->lines != 0)
         { 
+            
             if(check_box(pars) == 0)
             {
                 printf("Error : Invalid map 112\n");
                 exit(0);
             }
         }
+    
     free_map_list(pars);
 }
 
@@ -174,9 +178,6 @@ t_pars* parser(char *filecub)
         free(s);
         s = get_next_line(fd);
     }
-    //view(pars);
-    //view_lines(pars);
     more_parser(pars);
-    
     return (pars);
 }

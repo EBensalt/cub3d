@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:06:06 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/09 17:46:24 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/10 10:33:14 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ typedef struct s_pars
     int valid_direction;
     int color_floor;
     int color_c;
-    int valid_color;//
+    int valid_color;
     char *vision;
-    int valid_player;//
+    int valid_player;
     int start_map;
     int valid_map;
     char **map;

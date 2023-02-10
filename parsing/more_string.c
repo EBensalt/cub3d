@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:48:13 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/09 19:12:24 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/10 10:49:43 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,8 @@ int check_walls(char *s)
     int i;
     int size;
     int x;
-
-
-    
     
     size = ft_strlen(s);
-    //printf("in check_walls line %s with size %zu\n",s,ft_strlen(s));
     if(size == 0)
         return (0);
     x = right_space(s);
@@ -200,12 +196,6 @@ int check_line(char *s)
     size = ft_strlen(s);
     x = right_space(s);
     i = left_space(s);
-     
-                // {
-                //     if(s[x] == '1')
-                //         return (1);
-                // }
-        
     if(x != -1 && i != -1)
     {
         if((x-i) == 0 && s[i] == '1')
@@ -225,8 +215,6 @@ int check_medline(t_pars *pars,char *s)
     size = ft_strlen(s);
     x = right_space(s) + 1;
     i = left_space(s);
-
-    
     if(check_line(s) == 0)
     {
         return (0);
@@ -244,7 +232,11 @@ int check_medline(t_pars *pars,char *s)
                 pars->valid_player = 1;
             }
             else
+            {
                 printf("Error : duplicated player\n");
+                exit(0);
+            }
+                
         }
         else if(s[i] == 32)
             ;
