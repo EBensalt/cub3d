@@ -6,7 +6,7 @@
 /*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:36 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/02/02 04:31:57 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/02/09 22:36:40 by ebensalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_mlx
 	double	player_x;
 	double	player_y;
 	double	player_an;
+	double	hight;
+	double	ray;
 	int		move_up;
 	int		move_side;
 	int		arrow;
