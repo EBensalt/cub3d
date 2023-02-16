@@ -6,7 +6,7 @@
 /*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 15:41:20 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/01/18 03:28:17 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/02/02 00:32:29 by ebensalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,31 @@ size_t	ft_strlen(const char *s)
 	while (s[a] != '\0')
 		a++;
 	return (a);
+}
+
+char	*ft_substr(char *s, unsigned int start, size_t len, int mod)
+{
+	int		x;
+	char	*dst;
+
+	if (!s)
+		return (0);
+	dst = malloc(len + 1);
+	if (!dst)
+		return (0);
+	len += start;
+	x = 0;
+	while (start < len && s[start] != '\0')
+	{
+		dst[x] = s[start];
+		x++;
+		start++;
+	}
+	dst[x] = '\0';
+	if (mod)
+	{
+		free(s);
+		s = 0;
+	}
+	return (dst);
 }
