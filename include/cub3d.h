@@ -6,7 +6,7 @@
 /*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:36 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/02/18 01:35:29 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:53:26 by ebensalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,16 @@ typedef struct s_mlx
 	void	*init;
 	void	*win;
 	void	*img;
+	// void	*mini_img;
+	void	*mini_img_1;
+	void	*mini_img_0;
+	void	*mini_img_p;
 	int		i;
 	int		j;
 	double	k;
 	double	l;
+	int		w;
+	int		h;
 	int		win_x;
 	int		win_y;
 	double	player_x;
@@ -93,6 +99,7 @@ typedef struct s_mlx
 	int		line_length;
 	int		endian;
 	t_pars	*pars;
+	int		mouse;
 }	t_mlx;
 
 char	**ft_split(char const *s, char c);

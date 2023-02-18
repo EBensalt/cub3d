@@ -1,0 +1,17 @@
+/* XPM */
+static char *w[] = {
+"10 10 3 1",
+"b c #000000",
+"w c #444444",
+"  c none",
+"b b b b b ",
+" w w w w b",
+"b w w w w ",
+" w w w w b",
+"b w w w w ",
+" w w w w b",
+"b w w w w ",
+" w w w w b",
+"b w w w w ",
+" b b b b b",
+};

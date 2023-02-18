@@ -3,8 +3,8 @@ NO ./textures_xpm/naturalbricks_hd_verydark.xpm
 EA ./textures_xpm/naturalbricks_hd_middle.xpm
 WE ./textures_xpm/naturalbricks_hd_middle.xpm
 
-F 111,111,111
-C 155,100,160
+F 90,090,090
+C 220,220,220
 
 1111111111111111111111111111111111
 1000000000000000101111111111101111
