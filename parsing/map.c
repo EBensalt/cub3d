@@ -6,11 +6,11 @@
 /*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 18:36:51 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/02 00:29:12 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:31:53 by ebensalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../include/cub3d.h"
 
 char *clean_column_space(char *s)
 {
@@ -38,15 +38,27 @@ void set_sizes(t_line *line, int *sizeprev,int *sizenext)
         *sizenext = -1;      
 }
 
+void check_left_right(t_line *line,int index)
+{
+    int sizeline;
+    char c;
+    
+    sizeline = ft_strlen(line->line);
+    c = line->line[index];
+
+    if(c == '0')
+    {
+        if(line->line[index+1] == 32 || line->line[index-1] == 32)
+            throw_error("Error: Invalid map");
+    }
+}
 
 int *get_square(t_line *line,int index)
 {
      int *square;
      int sizeline;
      
-     //top bottom
      square = malloc(sizeof(int) * 2);
-     
      if(line->prev == 0)
         square[0] = -1;
       else
@@ -57,8 +69,6 @@ int *get_square(t_line *line,int index)
           else
               square[0] = -1;
       }
-      
-
       if(line->next == 0)
         square[1] = -1;
       else
@@ -69,28 +79,60 @@ int *get_square(t_line *line,int index)
           else
               square[1] = -1;
       }
+      check_left_right(line,index);
      return (square);
 }
 
 int check_point(t_pars *pars,int c,int mod)
 {
-    if(pars->vision != 0)
-    {
-        if(c == pars->vision[0])
-            return (1);
-    }
     if(mod == 0)
     {
+        if(pars->vision)
+            if(c == pars->vision[0])
+                return (1);
         if(c == '0' || c == '1')
-             return (1);
+        {
+            return (1);
+        }    
     }
     else
     {
-        if(c == '0')
+        if(c == '0' || c == pars->vision[0])
             return (1);
     }
      
     return (0);
+}
+
+void check_first(t_pars *pars,t_line *line, int *square)
+{
+    if(line->prev == 0)
+    {
+        
+        if(check_point(pars,square[1],0) == 0)
+            throw_error("Error : Invalid Map 101");
+    }
+}
+
+void check_med(t_pars *pars,t_line *line, int *square)
+{
+
+     if(line->prev != 0 && line->next != 0)
+    { 
+        if(check_point(pars,square[0],0) == 0)
+            throw_error("Error : Invalid Map 103");
+        if(check_point(pars,square[1],0) == 0)
+            throw_error("Error : Invalid Map 104");
+    }
+}
+
+void check_bottom(t_pars *pars,t_line *line, int *square)
+{
+    if (line->next == 0)
+    {
+        if(check_point(pars,square[0],0) == 0)
+            throw_error("Error : Invalid Map 105");
+    }
 }
 
 
@@ -105,76 +147,27 @@ void square_box(t_pars *pars)
 
     sizeprev = 0;
     sizenext = 0;
-    x = 0;
     current = pars->lines;
     while(current)
     {
-        i = 0;
-        while(current->line[i])
+        i = left_space(current->line);
+        x = right_space(current->line);
+        while(i <= x)
         {
             if(check_point(pars,current->line[i],1))
             {
                 square = get_square(current,i);
-                if(current->prev == 0)
-                {
-                    
-                    if(check_point(pars,square[1],0) == 0)
-                    {
-                        pars->valid_map = 0;
-                        break;
-                    }
-                }
-                if(current->prev != 0 && current->next != 0)
-                {
-                     if(check_point(pars,square[0],0) == 0)
-                    {
-                        pars->valid_map = 0;
-                        break;
-                    }
-
-                     if(check_point(pars,square[1],0) == 0)
-                    {
-                        pars->valid_map = 0;
-                        break;
-                    }
-                }
-                if(current->next == 0)
-                {
-                    if(check_point(pars,square[0],0) == 0)
-                    {
-                        pars->valid_map = 0;
-                        break;
-                    }
-                }
+                check_first(pars,current,square);
+                check_med(pars,current,square);
+                check_bottom(pars,current,square);
+                free(square);
             }
-            
             i++;
         }
         if(pars->valid_color == 0)
             break;
         current = current->next;
     }
-}
-
-
-int parse_column(char *s)
-{
-    int size;
-
-    
-    size = ft_strlen(s);
-    if(size > 1)
-    {
-        if(s[0] !=  '1' || s[size-1] != '1')
-            return (0);
-    }
-    else if(size == 1)
-    {
-        if(s[0] == '0')
-          return (0);
-    }
-       
-    return (1);
 }
 
 int check_map_line(char *s)
@@ -193,15 +186,22 @@ int check_map_line(char *s)
 int check_box_column(char *line)
 {
     int i;
+    int x;
     int size;
 
     size = ft_strlen(line);
-    i = 0;
-    while(line[i] == '1')
-        i++;
-    if(i == size)
+    i = left_space(line);
+    x = right_space(line);
+    while(i < x)
+    {
+        if(line[i] == '1')
+            i++;
+        else
+            break;
+    }    
+    
+    if(i == x)
         return (1);
-        
     return (0);
 }
 
@@ -209,80 +209,28 @@ int check_box(t_pars *pars)
 {
     t_line *current;
     int size;
-    int firstsize;
     int status;
     
     status = 1;
-    (void)size;
     current = pars->lines;
-
-            firstsize = ft_strlen(current->line);
-            if(check_box_column(current->line) == 0)
-                 status = 0;
-                     
-             while(current)
-            {
-                size = ft_strlen(current->line);
-                if(current->line[0] != '1' || current->line[size-1] != '1' )
-                     status = 0;
-                    
-                if(current->next == 0)
-                {
-                    if(check_box_column(current->line) == 0)
-                         status = 0;        
-                       
-                }
-                if(status == 0)
-                    break;
-                current = current->next;
-            }
-         
-    return (status);
-}
-
-int check_valid_column(t_pars *pars,char *s)
-{
-    int i;
-    int size;
- 
+    if(check_box_column(current->line) == 0)
+          status = 0;           
+    while(current)
+    {
        
-    if(parse_column(s) == 0 && pars->valid_player == 0)
-    {
-        pars->valid_map = 0;
-        return (0);
-    }
-   
-    size = ft_strlen(s);
-    i = 0;
-    while(++i < size)
-    {
-         if(pars->vision == 0)
+        size = ft_strlen(current->line);
+        if(!check_line(current->line))
+              status = 0;       
+        if(current->next == 0)
         {
-            
-            if(s[i] == 'N' || s[i] == 'S' || s[i] == 'W' || s[i] == 'E')
-            {
-                pars->vision = malloc(2);
-                pars->vision[0] = s[i];
-                pars->vision[1] = '\0';
-                pars->valid_player = 1;
-            }
-            else if(!(s[i] == '1' || s[i] == '0'))
-            {
-                pars->valid_map = 0;
-                return (0); 
-            }
-                
+            if(check_box_column(current->line) == 0)
+                  status = 0;        
         }
-        else if(!(s[i] == '1' || s[i] == '0'))
-            return (0);
-            
+        if(status == 0)
+            break;
+        current = current->next;
     }
-    if(size > 1)
-    {
-        if(!(s[0] == '1' && s[size-1] == '1'))
-            return (0);
-    }
-    return (1);
+    return (status);
 }
 
 void clear_tab(t_pars *pars)
@@ -297,49 +245,29 @@ void clear_tab(t_pars *pars)
     }
 }
 
-void map_check(t_pars *pars,char *s)
+int parse_column(char *s)
 {
-    int count;
-    int status;
-    char **line;
     int size;
-    int i;
-    t_line *new;
-    
 
     size = ft_strlen(s);
-    status = 1;
-    count = 0;
-    line = ft_split_new(s,32,&count);
-    i = 0;
-    while(i < count)
+    if(size > 1)
     {
-        if(check_valid_column(pars,line[i]) == 0)
-        {
-            status = 0;
-            break;
-        }
-        i++;
+        if(s[0] !=  '1' || s[size-1] != '1')
+            return (0);
     }
-    if(status == 1 && pars->start_map == 0)
-        pars->start_map = 1;
-    if(status == 0 && pars->start_map == 1)
-    {
-           pars->valid_map = 0;
-    }
-      
-       
-        
-    
-    if(status == 0 && pars->start_map == 1)
-    {
-         pars->valid_map = 0;
-    }
-          
-        
+    else if(left_space(s) == size && size > 0)
+        return (0);
+    return (1);
+}
 
-    
 
+
+void fill_lines(t_pars *pars,char *s)
+{
+    t_line *new;
+    int size;
+    
+    size = ft_strlen(s);
     if(pars->valid_map == 1 &&  pars->start_map == 1 && size > 0)
     {
         if(pars->prev_line == 0)
@@ -360,12 +288,35 @@ void map_check(t_pars *pars,char *s)
             pars->prev_line = new;
         }
     }
-        
-    i = -1;
-    while(++i < count)
-        free(line[i]);
-     free(line);
+}
 
-    
+void check_errors_map(t_pars *pars,int status)
+{
+    if(status == 1 && pars->start_map == 0)
+        pars->start_map = 1;
+    if(status == 0 && pars->start_map == 1)
+        throw_error("Error : Invalid Map 108");
+}
+
+void map_check(t_pars *pars,char *s)
+{
+    int status;
+    status = 1;
+  
+    if(pars->start_map == 0)
+    {
+        if(check_walls(s) == 0)
+            status = 0;
+        if(status)
+            pars->start_map = 1;
+    }
+    else
+    {
+        if(check_medline(pars,s) == 0)
+            status = 0;
+    }
+    check_errors_map(pars,status);
+    if(status)
+        fill_lines(pars,s);
 }
 

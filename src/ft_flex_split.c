@@ -6,13 +6,12 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 12:21:20 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/16 13:41:43 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/01/29 15:52:28 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-//0x00F5BC39
 char     *nice_alloc(char const *s, unsigned int start, size_t len)
 {
         size_t  slen;
