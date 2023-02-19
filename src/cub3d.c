@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:59 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/02/10 11:26:16 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/16 16:36:13 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ void	rays_draw(t_mlx *mlx)
 				// mlx_pixel_put(mlx->init, mlx->win, x, y, 0x00FF0000);
 			// if ((int)y % 50 == 0 && tmp == 2)
 			// 	mlx_pixel_put(mlx->init, mlx->win, x, y, 0x00FF0000);
+
+			
 			i++;
 		}
 		mlx_pixel_put(mlx->init, mlx->win, x - 1, y - 1, 0x00FF0000);
@@ -270,7 +272,6 @@ int	handler_test(t_mlx *mlx)
 	double	x;
 	double	y;
 	int		i;
-	// int		j;
 
 	x = mlx->player_x;
 	y = mlx->player_y;
@@ -405,38 +406,49 @@ void	td_map(t_mlx *mlx)
 {
 	game(mlx);
 }
+// dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+// my_mlx_pixel_put(gdgf,dgdg,fdgdfg, *(unsigned int*)dst);
+// void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+// {
+// 	char	*dst;
+
+// 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+// 	*(unsigned int*)dst = color;
+// }
 
 int	main(int ac,char **av)
 {
-	t_mlx	*mlx;
+	//void	*mlx = 0;
 	t_pars *pars;
-	 int	i;
+	//  int	i;
+	//  int h,w;
+	//  t_data data;
 
-	i = -1;
+	//i = -1;
 	(void)ac;
 	(void)av;
-	(void)mlx;
 	pars = parser(av[1]);
+
+// 	mlx = mlx_init();
+// 	data.img  = mlx_xpm_file_to_image(mlx, "textures_xpm/france_shit.xpm",&w, &h);
+//    data.addr=  mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
+	
+// 	printf("pixels :%d:%d\n",w,h);
+	
+
+	
 	//while (pars->map[++i])
 		//printf("%s\n", pars->map[i]);
 	//system("leaks cub3D | grep leaks | grep for | cut -d ':' -f2 ");
-
-	
 	// mlx = malloc(sizeof(t_mlx));
 	// mlx->map = pars->map;
 	// // mlx->map = map_creat();
 	// // i = -1;
 	// // while (mlx->map[++i])
 	// // 	printf("%s\n", mlx->map[i]);
-	// mlx->init = mlx_init();
+	// 
 	// mlx = map_dem(mlx);
 	// mlx->win = mlx_new_window(mlx->init, (mlx->i * 50), (mlx->j * 50), "cub3D");
 	// td_map(mlx);
-	// mlx_loop(mlx->init);
-	
-		
-	
-	
-
-	
+	// mlx_loop(mlx->init);	
 }
