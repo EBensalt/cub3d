@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:36 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/02/18 18:53:26 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/02/19 15:52:59 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_pars
 	char			*vision;
 	int				valid_player;
 	int				start_map;
+	int				end_map;
 	int				valid_map;
 	char			**map;
 	t_line			*lines;
@@ -102,6 +103,8 @@ typedef struct s_mlx
 	int		mouse;
 }	t_mlx;
 
+int     ft_strcmp(char *s1, char *s2);
+char    *ft_strstr(char *str, char *to_find);
 char	**ft_split(char const *s, char c);
 void	view(t_pars *pars);
 void	view_lines(t_pars *pars);
@@ -136,4 +139,30 @@ int		left_space(char *s);
 int		right_space(char *s);
 int		check_line(char *s);
 void	throw_error(char *s);
+void 	catch_out_head(t_pars *pars, char *s);
+int		check_end_map(char *s);
+int		copy_check_walls(char *s);
+void	parse_color(t_pars *pars, char *s);
+void 	free_array(char **tab, int count);
+char 	*clean_column_space(char *s);
+void	 set_sizes(t_line *line, int *sizeprev, int *sizenext);
+void 	check_left_right(t_line *line, int index);
+int		*get_square(t_line *line, int index);
+int		check_point(t_pars *pars, int c, int mod);
+void	check_first(t_pars *pars, t_line *line, int *square);
+void 	check_med(t_pars *pars, t_line *line, int *square);
+void	check_bottom(t_pars *pars, t_line *line, int *square);
+void	square_box(t_pars *pars);
+int		check_map_line(char *s);
+int 	check_box_column(char *line);
+int		check_box(t_pars *pars);
+void 	clear_tab(t_pars *pars);
+int		parse_column(char *s);
+void 	init_pars(t_pars *pars);
+void 	validate(t_pars *pars);
+int 	get_count(t_line *line);
+void 	fill_map_lines(t_pars *pars);
+void 	free_map_list(t_pars *pars);
+
+
 #endif

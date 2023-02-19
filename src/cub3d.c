@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:24:59 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/02/18 19:31:09 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/02/19 15:17:40 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -464,10 +464,11 @@ int	main(int ac, char **av)
 	(void)ac;
 	mlx = malloc(sizeof(t_mlx));
 	mlx->pars = parser(av[1]);
-	mlx->init = mlx_init();
-	mlx = map_dem(mlx);
-	mlx->win = mlx_new_window(mlx->init, (mlx->win_x * 50), (mlx->win_y * 50), "cub3D");
-	t3d_map(mlx);
+	
+	//mlx->init = mlx_init();
+	//mlx = map_dem(mlx);
+	//mlx->win = mlx_new_window(mlx->init, (mlx->win_x * 50), (mlx->win_y * 50), "cub3D");
+	//t3d_map(mlx);
 	// printf("ok\n");
-	mlx_loop(mlx->init);
+	//mlx_loop(mlx->init);
 }
