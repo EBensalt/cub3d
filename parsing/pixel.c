@@ -6,7 +6,7 @@
 /*   By: aniouar <aniouar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 16:34:52 by aniouar           #+#    #+#             */
-/*   Updated: 2023/02/19 16:23:04 by aniouar          ###   ########.fr       */
+/*   Updated: 2023/02/19 23:54:56 by aniouar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_walls(char *s)
 		while (i <= x)
 		{
 			if (s[i] != '1' && s[i] != 32)
-				throw_error("Error : map wall with spaces");
+				throw_error("Error : Invalid map");
 			i++;
 		}
 		return (1);
