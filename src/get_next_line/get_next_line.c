@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebensalt <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 15:39:06 by ebensalt          #+#    #+#             */
-/*   Updated: 2022/02/04 21:39:44 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/02/20 06:27:08 by ebensalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ char	*get_next_line_resum(char *line, int fd, char *buf, int j)
 
 	while (ft_strchr(line, '\n') == 0)
 	{
-		i = read(fd, buf, BUFFER_SIZE);
+		i = read(fd, buf, 1);
 		buf[i] = '\0';
-		if (i < BUFFER_SIZE)
+		if (i < 1)
 		{
 			line = ft_end(line, buf, i, j);
 			break ;
@@ -110,7 +110,7 @@ char	*get_next_line(int fd)
 	char		*result;
 	int			j;
 
-	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buf = (char *)malloc((1 + 1) * sizeof(char));
 	if (buf == NULL)
 		return (0);
 	j = 0;

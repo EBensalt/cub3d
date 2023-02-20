@@ -6,7 +6,7 @@
 /*   By: ebensalt <ebensalt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 15:44:02 by ebensalt          #+#    #+#             */
-/*   Updated: 2023/01/18 03:22:00 by ebensalt         ###   ########.fr       */
+/*   Updated: 2023/02/02 00:32:44 by ebensalt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *s);
+char	*ft_substr(char *s, unsigned int start, size_t len, int mod);
 #endif
